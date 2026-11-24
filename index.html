@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#151623">
+  <meta name="description" content="Una invitación para Missi. Sol y los michis prepararon algo bajo las estrellas.">
+  <meta property="og:title" content="El pequeño universo de Missi">
+  <meta property="og:description" content="Oaaaa, Missi. Tenemos algo para vos. 🐾">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_LA">
+  <meta property="og:image" content="./assets/arte/postal.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Un gatito mensajero espera con una carta ante una puerta iluminada.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="./assets/sello.svg">
+  <link rel="stylesheet" href="./estilos.css">
+  <title>El pequeño universo de Missi</title>
+  <script defer src="./personalizar.js"></script>
+  <script defer src="./iconos.js"></script>
+  <script defer src="./radio.js"></script>
+  <script defer src="./cuento.js"></script>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al cuento</a>
+  <header class="masthead">
+    <div class="wrap mast-inner">
+      <a class="wordmark" href="#portada" aria-label="Universo de Missi, ir a portada">
+        <img src="./assets/sello.svg" width="42" height="42" alt="">
+        <span>Universo de <i>Missi</i></span>
+      </a>
+      <nav class="top-nav" aria-label="Navegación principal">
+        <a href="#mapa" class="nav-map"><span data-icon="map"></span><span>Mapa<span class="wide-word"> estelar</span></span></a>
+        <button type="button" id="radio-button" class="radio-button" aria-haspopup="dialog" aria-controls="radio-dialog"><span data-icon="music"></span><span>Radio</span><span class="meter" aria-hidden="true"><i></i><i></i><i></i></span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1"></main>
+  <footer class="wrap footer">
+    <span><span data-icon="paw"></span> De Rob para Missi</span>
+    <button type="button" class="text-btn" id="night-button" aria-pressed="false"><span data-icon="moon"></span><span>Noche profunda</span></button>
+  </footer>
+
+  <dialog id="radio-dialog" class="panel-dialog" aria-labelledby="radio-title">
+    <div class="dialog-head"><span class="kicker"><span data-icon="music"></span> El tocadiscos</span><button type="button" class="icon-btn" aria-label="Cerrar la radio" data-close><span data-icon="x"></span></button></div>
+    <h2 id="radio-title">La radio de Sol</h2>
+    <div class="radio-art" aria-hidden="true"><div class="record"><b></b></div><i class="tonearm"></i><span>♫</span></div>
+    <div class="track-line"><div><span class="field-caption">En el tocadiscos</span><strong id="track-title"></strong></div><span id="track-count"></span></div>
+    <div class="transport">
+      <button class="icon-btn" type="button" id="prev-track" aria-label="Canción anterior"><span data-icon="prev"></span></button>
+      <button class="play-btn" type="button" id="play-track" aria-label="Reproducir música"><span data-icon="play"></span></button>
+      <button class="icon-btn" type="button" id="next-track" aria-label="Canción siguiente"><span data-icon="next"></span></button>
+    </div>
+    <label class="volume-label" for="volume"><span>Volumen de la música</span><output id="volume-value" for="volume"></output></label>
+    <input id="volume" type="range" min="0" max="100" step="1" value="42">
+    <div class="switch-line"><label for="sound-effects">Efectos de los michis</label><input id="sound-effects" type="checkbox" class="switch"></div>
+    <div class="switch-line"><label for="all-muted">Silenciar todo</label><input id="all-muted" type="checkbox" class="switch"></div>
+    <p id="audio-status" class="audio-status" role="status"></p>
+  </dialog>
+
+  <dialog id="story-dialog" class="panel-dialog story-dialog" aria-labelledby="modal-title">
+    <div class="dialog-head"><span id="modal-symbol" class="dialog-symbol"></span><button type="button" class="icon-btn" aria-label="Cerrar ventana" data-close><span data-icon="x"></span></button></div>
+    <h2 id="modal-title"></h2><div id="modal-content"></div><div id="modal-actions" class="dialog-actions"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="confetti" aria-hidden="true"></div>
+  <audio id="music-audio" preload="none" playsinline></audio>
+  <noscript><p class="noscript">Activá JavaScript para entrar al cuento de los gatitos.</p></noscript>
+</body>
+</html>
