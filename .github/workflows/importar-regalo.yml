@@ -1,0 +1,52 @@
+name: Preparar el regalo de Missi
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['_entrega/parte-5.txt']
+permissions:
+  contents: write
+concurrency:
+  group: preparacion-inicial-missi
+  cancel-in-progress: false
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Comprobar la entrega y colocar los archivos del sitio
+        shell: python
+        run: |
+          import base64
+          import hashlib
+          import io
+          from pathlib import Path, PurePosixPath
+          from zipfile import ZipFile
+
+          partes = [Path(f"_entrega/parte-{numero}.txt") for numero in range(1, 6)]
+          texto = "".join("".join(archivo.read_text().split()) for archivo in partes)
+          datos = base64.b64decode(texto, validate=True)
+          if hashlib.sha256(datos).hexdigest() != "4f2cf9af0d7ff08d1cb9d759d6bef7c34daedaf8bb021afab133bd82d6149f95":
+              raise ValueError("La entrega no coincide con el ZIP de Rob.")
+          with ZipFile(io.BytesIO(datos)) as paquete:
+              for nombre in paquete.namelist():
+                  ruta = PurePosixPath(nombre)
+                  if ruta.is_absolute() or ".." in ruta.parts or ".git" in ruta.parts or ".github" in ruta.parts:
+                      raise ValueError("Ruta inesperada en el paquete.")
+                  destino = Path(*ruta.parts)
+                  contenido = paquete.read(nombre)
+                  if destino.exists() and destino.read_bytes() != contenido:
+                      raise ValueError(f"Ya hay cambios en {nombre}.")
+                  destino.parent.mkdir(parents=True, exist_ok=True)
+                  destino.write_bytes(contenido)
+          for archivo in partes:
+              archivo.unlink()
+      - name: Guardar el proyecto en main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          git commit -m "Publica el cuento, las ilustraciones y la música de Missi"
+          git push origin HEAD:main
